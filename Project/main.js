@@ -14,7 +14,7 @@ function createTable(data) {
   var tableHead = document.createElement('thead')
   var headRow = document.createElement('tr')
 
-  Object.keys(data[0]).forEach((key) => {
+  Object.keys(data[0]).forEach((key, index) => {
     var th = document.createElement('th')
     if ((index == 4) || (index == 7)) th.classList.add('hide')
 
@@ -26,13 +26,14 @@ function createTable(data) {
   table.appendChild(tableHead)
 
   var tableBody = document.createElement('tbody')
-  data.forEach((item) => {
+  data.forEach((item, itemdx) => {
     var row = document.createElement('tr')
 
     Object.values(item).forEach((value, index) => {
       var cell = document.createElement('td')
 
       if (index == 1) cell.className = 'name-tab'
+      if (index == 1) cell.setAttribute('aid', itemdx);
       if ((index == 4) || (index == 7)) cell.classList.add('hide')
 
       cell.textContent = value
@@ -46,13 +47,14 @@ function createTable(data) {
 
   table.addEventListener('click', (event) => {
     if (event.target.classList.contains('name-tab')) {
+	  const i = event.target.getAttribute('aid');
       const modal = document.getElementById('myModal')
       modal.style.display = 'block'
 
       const modalContent = document.querySelector('.modalContent')
       const dataContainer = document.querySelector('.dataContainer')
       
-      for (let i = 0; i <= 9; i++) {
+      //for (let i = 0; i <= 9; i++) {
         
         dataContainer.textContent = `
         Street: ${data[i].address.street},
@@ -61,9 +63,9 @@ function createTable(data) {
         Zipcode: ${data[i].address.zipcode},
         Geocode(lat): ${data[i].address.geo.lat},
         Geocode(lng): ${data[i].address.geo.lng}
-        
         `
-      }
+		
+      //}
 
       // modalContent.textContent = `Street: ${data[0].address.street}`
       // modalContent.textContent = `Suite: ${data[0].address.suite}`
